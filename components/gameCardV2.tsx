@@ -12,7 +12,6 @@ type Props = {
 export default function GameCard({ game, onComplete }: Props) {
     return (
         <div className="rounded-xl border border-zinc-800 bg-zinc-900 overflow-hidden">
-            {/* image */}
             <div className="relative h-40 w-full bg-zinc-800">
                 {game.image ? (
                     <Image
@@ -21,7 +20,6 @@ export default function GameCard({ game, onComplete }: Props) {
                         fill
                         sizes="(max-width: 640px) 100vw, 50vw"
                         className="object-cover"
-                        priority={false}
                     />
                 ) : (
                     <div className="h-full w-full flex items-center justify-center text-xs text-zinc-400">
@@ -29,7 +27,14 @@ export default function GameCard({ game, onComplete }: Props) {
                     </div>
                 )}
 
-                {/* completed badge overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/70 via-transparent to-transparent" />
+
+                <div className="absolute bottom-3 left-3 right-3">
+                    <h3 className="text-base font-semibold text-white leading-snug line-clamp-2">
+                        {game.title}
+                    </h3>
+                </div>
+
                 {game.completed && (
                     <span className="absolute top-3 right-3 rounded-md bg-emerald-900/60 px-3 py-1 text-xs text-emerald-200 backdrop-blur">
                         Completed
@@ -38,15 +43,6 @@ export default function GameCard({ game, onComplete }: Props) {
             </div>
 
             <div className="p-4 space-y-3">
-                {/* Title */}
-                <h3 className="text-lg font-semibold text-white">{game.title}</h3>
-
-                {/* optional release */}
-                {game.released && (
-                    <p className="text-xs text-zinc-400">Released: {game.released}</p>
-                )}
-
-                {/* Genres */}
                 <div className="flex flex-wrap gap-2">
                     {game.genres.map((genre) => (
                         <span
@@ -58,7 +54,6 @@ export default function GameCard({ game, onComplete }: Props) {
                     ))}
                 </div>
 
-                {/* XP Preview */}
                 <div className="text-sm text-zinc-400">
                     XP on completion:{" "}
                     <span className="text-emerald-400 font-medium">
@@ -66,7 +61,6 @@ export default function GameCard({ game, onComplete }: Props) {
                     </span>
                 </div>
 
-                {/* Action */}
                 <div>
                     {game.completed ? (
                         <span className="inline-block rounded-md bg-emerald-900/40 px-3 py-1 text-sm text-emerald-400">

@@ -1,5 +1,12 @@
 import { prisma } from "@/lib/prisma/client";
-import type { RawgGame } from "@/types/game";
+
+type CreateGameInput = {
+  rawgId: number;
+  title: string;
+  genres: string[];
+  image?: string | null;
+  released?: string | null; // ISO date string
+};
 
 export async function markGameCompleted(userId: string, gameId: string) {
   return prisma.userGameProgress.upsert({
@@ -9,17 +16,21 @@ export async function markGameCompleted(userId: string, gameId: string) {
   });
 }
 
-export async function getOrCreateGame(rawgGame: RawgGame) {
-  let game = await prisma.game.findUnique({ where: { rawgId: rawgGame.id } });
-  if (!game) {
-    game = await prisma.game.create({
-      data: {
-        id: rawgGame.id.toString(),
-        rawgId: rawgGame.id,
-        title: rawgGame.title,
-        genres: rawgGame.genres.map((g: any) => g.name),
-      },
-    });
-  }
-  return game;
+export async function getOrCreateGame(input: CreateGameInput) {
+  const existing = await prisma.game.findUnique({ where: { rawgId: input.rawgId } });
+  if (existing) return existing;
+
+  const releasedDate =
+    input.released ? new Date(input.released) : null;
+
+  return prisma.game.create({
+    data: {
+      id: input.rawgId.toString(),
+      rawgId: input.rawgId,
+      title: input.title,
+      genres: input.genres,
+      image: input.image ?? null,
+      released: releasedDate,
+    },
+  });
 }

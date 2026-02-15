@@ -4,38 +4,32 @@ import { getUserIdFromSession } from "@/lib/supabase/server";
 import { markGameCompleted, getOrCreateGame } from "@/lib/db/game";
 import { getUserCompletedGames } from "@/lib/db/userXP";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const userId = await getUserIdFromSession();
   if (!userId) return NextResponse.json({ completedGameIds: [] });
 
   const completedGameIds = await getUserCompletedGames(userId);
-  console.log(completedGameIds)
-  console.log(typeof(completedGameIds[1]))
   return NextResponse.json({ completedGameIds });
 }
-
-/* ---------------- POST complete game ---------------- */
 
 export async function POST(req: NextRequest) {
   const { rawgGame } = await req.json();
 
-  if (!rawgGame?.rawgId) {
+  if (!rawgGame?.rawgId || !rawgGame?.title) {
     return NextResponse.json({ error: "Invalid game data" }, { status: 400 });
   }
 
   const userId = await getUserIdFromSession();
-  if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  // ensure game exists
   const game = await getOrCreateGame({
-    id: rawgGame.rawgId,
+    rawgId: rawgGame.rawgId,
     title: rawgGame.title,
-    genres: rawgGame.genres.map((g: string) => ({ name: g })),
+    genres: rawgGame.genres ?? [],
+    image: rawgGame.image ?? null,
+    released: rawgGame.released ?? null,
   });
 
-  // persist completion
   await markGameCompleted(userId, game.id);
 
   return NextResponse.json({ success: true });
