@@ -104,7 +104,7 @@ export default function HomeClient({ initialGames }: Props) {
     }
 
     const title = useMemo(() => {
-        if (mode === "popular") return "Top Rated";
+        if (mode === "popular") return "Popular";
         return `Results for "${query.trim()}"`;
     }, [mode, query]);
 

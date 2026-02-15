@@ -4,7 +4,7 @@ const RAWG_BASE_URL = "https://api.rawg.io/api";
 
 export async function fetchPopularGames(): Promise<Game[]> {
     const res = await fetch(
-        `${RAWG_BASE_URL}/games?key=${process.env.RAWG_API_KEY}&ordering=-rating&page_size=20`,
+        `${RAWG_BASE_URL}/games?key=${process.env.RAWG_API_KEY}&ordering=-added&page_size=20`,
         { next: { revalidate: 3600 } }
     );
 
