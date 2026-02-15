@@ -4,7 +4,7 @@ Game Tracker is a **live, deployed full-stack web application** that tracks game
 
 Unlike demo-only projects, Game Tracker is a real application with authentication, persistent server-side data, and a structured backend designed to reflect industry development workflows.
 
-Try it here: 
+[Try it here](https://gametracker-chi.vercel.app/)
 
 ![GameTracker Hero](https://github.com/user-attachments/assets/19f5f301-9912-49eb-963f-f7243dd1620b)
 
@@ -173,10 +173,17 @@ Game Tracker was built to demonstrate the ability to design, implement, and depl
 
 ## Screenshots
 
-| Home Page | Dashboard | Login |
-|-----------|-----------|-------|
-| ![](https://github.com/user-attachments/assets/8d68f9db-c066-4a10-9796-e939a09483b8) | ![](https://github.com/user-attachments/assets/b0ea4b85-0a6a-485c-80ec-133e914ebbf5) | ![](https://github.com/user-attachments/assets/03231f73-0a29-4f89-abe2-2986cd9a62bc) |
+| Home Page |
+|-----------|
+| ![](https://github.com/user-attachments/assets/8d68f9db-c066-4a10-9796-e939a09483b8) |
 
+| Dashboard |
+|-----------|
+| ![](https://github.com/user-attachments/assets/b0ea4b85-0a6a-485c-80ec-133e914ebbf5) |
+
+| Login |
+|-------|
+| ![](https://github.com/user-attachments/assets/03231f73-0a29-4f89-abe2-2986cd9a62bc) |
 
 ## License
 
