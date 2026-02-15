@@ -12,7 +12,7 @@ export async function GET() {
     );
   }
 
-  const url = `${RAWG_BASE_URL}?key=${apiKey}&ordering=-rating&page_size=20`;
+  const url = `${RAWG_BASE_URL}?key=${apiKey}&ordering=-added&page_size=20`;
 
   const res = await fetch(url, {
     next: { revalidate: 3600 }, // cache for 1 hour
