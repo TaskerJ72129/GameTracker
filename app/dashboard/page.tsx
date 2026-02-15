@@ -5,6 +5,7 @@ import { calculateLevel } from "@/lib/xp/xpUtils";
 import { GENRE_XP } from "@/lib/xp/xpConfig";
 import { useUserXP } from "@/app/context/userXpContext";
 import type { XPState, XPEvent, GenreXPMap } from "@/types/xp";
+import CompletedGamesPanel from "./completedGamesPanel";
 
 function EmptyGenreState() {
   return (
@@ -61,6 +62,7 @@ function XPHistory({ history }: { history: XPEvent[] }) {
 export default function DashboardPage() {
   const { genreXP, xpHistory } = useUserXP();
   const [expanded, setExpanded] = useState(false);
+  const [tab, setTab] = useState<"overview" | "completed">("overview");
 
   const sortedGenres = Object.entries(genreXP)
     .map(([genre, xp]) => {
@@ -68,64 +70,92 @@ export default function DashboardPage() {
       return { genre, xp, data };
     })
     .sort((a, b) => {
-      if (a.data.level !== b.data.level) {
-        return b.data.level - a.data.level;
-      }
+      if (a.data.level !== b.data.level) return b.data.level - a.data.level;
       return b.data.progress - a.data.progress;
     });
 
-  const hasAnyGenreXP = sortedGenres.some(g => g.xp > 0);
-
-  // slice for collapsed view
+  const hasAnyGenreXP = sortedGenres.some((g) => g.xp > 0);
   const displayedGenres = expanded ? sortedGenres : sortedGenres.slice(0, 5);
 
   return (
-    <main className="p-8 max-w-3xl mx-auto space-y-8">
-      <section className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-4">
-        <section className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-white">Genre Levels</h1>
-          <p className="text-zinc-400 text-sm">
-            Your strengths across different types of games
-          </p>
-        </section>
+    <main className="p-8 max-w-4xl mx-auto space-y-6">
+      {/* tabs */}
+      <div className="flex gap-2">
+        <button
+          onClick={() => setTab("overview")}
+          className={`px-4 py-2 rounded-md text-sm border ${
+            tab === "overview"
+              ? "bg-zinc-800 border-zinc-700 text-white"
+              : "border-zinc-800 text-zinc-400 hover:text-white"
+          }`}
+        >
+          Overview
+        </button>
 
-        {!hasAnyGenreXP ? (
-          <EmptyGenreState />
-        ) : (
-          <section className="border border-dashed border-zinc-700 rounded-lg p-6 space-y-4">
-            {displayedGenres.map(({ genre, data }) => (
-              <div key={genre}>
-                <div className="flex justify-between text-sm mb-1 text-zinc-300">
-                  <span>{genre}</span>
-                  <span>Lv {data.level}</span>
-                </div>
+        <button
+          onClick={() => setTab("completed")}
+          className={`px-4 py-2 rounded-md text-sm border ${
+            tab === "completed"
+              ? "bg-zinc-800 border-zinc-700 text-white"
+              : "border-zinc-800 text-zinc-400 hover:text-white"
+          }`}
+        >
+          Completed Games
+        </button>
+      </div>
 
-                <div className="h-3 bg-zinc-800 rounded">
-                  <div
-                    className="h-3 bg-emerald-600 rounded transition-all"
-                    style={{ width: `${data.progress * 100}%` }}
-                  />
-                </div>
+      {tab === "overview" ? (
+        <>
+          <section className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-4">
+            <section className="flex items-center justify-between">
+              <h1 className="text-3xl font-bold text-white">Genre Levels</h1>
+              <p className="text-zinc-400 text-sm">Your strengths across different types of games</p>
+            </section>
 
-                <p className="text-xs text-zinc-500 mt-1">
-                  {data.currentXP} / {data.nextLevelXP} XP
-                </p>
-              </div>
-            ))}
-            {sortedGenres.length > 5 && (
-              <button
-                onClick={() => setExpanded(!expanded)}
-                className="w-full text-center text-sm text-emerald-400 hover:underline mt-2"
-              >
-                {expanded ? "Show Less" : "Show All"}
-              </button>
+            {!hasAnyGenreXP ? (
+              <EmptyGenreState />
+            ) : (
+              <section className="border border-dashed border-zinc-700 rounded-lg p-6 space-y-4">
+                {displayedGenres.map(({ genre, data }) => (
+                  <div key={genre}>
+                    <div className="flex justify-between text-sm mb-1 text-zinc-300">
+                      <span>{genre}</span>
+                      <span>Lv {data.level}</span>
+                    </div>
+
+                    <div className="h-3 bg-zinc-800 rounded">
+                      <div
+                        className="h-3 bg-emerald-600 rounded transition-all"
+                        style={{ width: `${data.progress * 100}%` }}
+                      />
+                    </div>
+
+                    <p className="text-xs text-zinc-500 mt-1">
+                      {data.currentXP} / {data.nextLevelXP} XP
+                    </p>
+                  </div>
+                ))}
+
+                {sortedGenres.length > 5 && (
+                  <button
+                    onClick={() => setExpanded(!expanded)}
+                    className="w-full text-center text-sm text-emerald-400 hover:underline mt-2"
+                  >
+                    {expanded ? "Show Less" : "Show All"}
+                  </button>
+                )}
+              </section>
             )}
           </section>
-        )}
-      </section>
-      {/* XP History */}
-      <XPHistory history={xpHistory} />
-      
+
+          <XPHistory history={xpHistory} />
+        </>
+      ) : (
+        <section className="space-y-4">
+          <h1 className="text-2xl font-bold text-white">Completed Games</h1>
+          <CompletedGamesPanel />
+        </section>
+      )}
     </main>
   );
 }

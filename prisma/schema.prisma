@@ -38,6 +38,7 @@ model Game {
   title     String
   genres    String[]
   released  DateTime?
+  image     String?
   createdAt DateTime  @default(now())
   progress  UserGameProgress[]
 }
