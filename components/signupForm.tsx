@@ -8,7 +8,6 @@ function normalizeUsername(value: string) {
 }
 
 function validateUsername(value: string) {
-    // 3-20, letters/numbers/underscore
     return /^[a-zA-Z0-9_]{2,20}$/.test(value);
 }
 
@@ -28,52 +27,59 @@ export default function SignupForm() {
     const passwordsMatch = password.length > 0 && password === confirmPassword;
 
     async function signUp() {
-        setLoading(true);
-        setError(null);
-        setMessage(null);
+    setLoading(true);
+    setError(null);
+    setMessage(null);
 
-        const emailTrimmed = email.trim();
-        const u = usernameNormalized;
+    const emailTrimmed = email.trim();
+    const u = usernameNormalized;
 
-        if (!emailTrimmed) {
-            setLoading(false);
-            setError("Email is required.");
-            return;
-        }
-
-        if (!usernameOk) {
-            setLoading(false);
-            setError("Username must be 2–20 characters and use only letters, numbers, or underscore.");
-            return;
-        }
-
-        if (!password || !passwordsMatch) {
-            setLoading(false);
-            setError("Passwords must match.");
-            return;
-        }
-
-        // Save desired username locally until after email confirmation + first login.
-        // This avoids needing an authenticated session during sign-up.
-        try {
-            localStorage.setItem("pending_username", u);
-        } catch {
-            // ignore
-        }
-
-        const { error } = await supabase.auth.signUp({
-            email: emailTrimmed,
-            password,
-        });
-
+    if (!emailTrimmed) {
         setLoading(false);
+        setError("Email is required.");
+        return;
+    }
 
-        if (error) {
-            setError(error.message);
-            return;
-        }
+    if (!usernameOk) {
+        setLoading(false);
+        setError("Username must be 2–20 characters and use only letters, numbers, or underscore.");
+        return;
+    }
 
-        setMessage("Account created. Check your email to confirm, then sign in.");
+    if (!password || !passwordsMatch) {
+        setLoading(false);
+        setError("Passwords must match.");
+        return;
+    }
+
+    try {
+        localStorage.setItem("pending_username", u);
+    } catch {}
+
+    const { data, error } = await supabase.auth.signUp({
+        email: emailTrimmed,
+        password,
+        options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+    });
+
+    if (error) {
+        setLoading(false);
+        setError(error.message);
+        return;
+    }
+
+    // If Supabase returns a session, user is auto-logged-in.
+    // Ensure DB row immediately so app state is consistent.
+    if (data.session) {
+        await fetch("/api/user/ensure", { method: "POST" });
+        await supabase.auth.signOut();
+    }
+
+    setLoading(false);
+
+    setMessage("Account created. Please sign in.");
     }
 
     return (
