@@ -16,6 +16,9 @@ export const metadata = {
     title: "GameTracker",
     description: "Game completion tracker with XP progression",
     images: ["/GameTracker_Preview.png"],
+    verification: {
+      google: "F1jx3iuDu944mDHYiDwNk_DCFAEMTRrWAxZyNLrtN1M",
+    },
   },
 };
 
