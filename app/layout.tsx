@@ -9,6 +9,16 @@ import Footer from "@/components/footer";
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
+export const metadata = {
+  title: "GameTracker",
+  description: "Game completion tracker with XP progression",
+    openGraph: {
+    title: "GameTracker",
+    description: "Game completion tracker with XP progression",
+    images: ["/GameTracker_Preview.png"],
+  },
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
