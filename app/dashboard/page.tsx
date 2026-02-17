@@ -20,7 +20,7 @@ function EmptyGenreState() {
       </p>
 
       <p className="text-xs text-zinc-500">
-        Start by adding or completing a game 🎮
+        Start by adding or completing a game
       </p>
     </div>
   );

@@ -29,7 +29,7 @@ export default function LoginForm() {
 
         await fetch("/api/user/ensure", { method: "POST" });
 
-        router.push("/");
+        router.push("/home");
         router.refresh();
     }
 
@@ -72,7 +72,7 @@ export default function LoginForm() {
 
 
         setLoading(false);
-        router.push("/");
+        router.push("/home");
         router.refresh();
     }
 
