@@ -1,9 +1,12 @@
-export default function sitemap() {
-  const base = "https://gametracker-chi.vercel.app";
+import type { MetadataRoute } from "next";
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const siteUrl = "https://gametracker-chi.vercel.app";
+  const now = new Date();
 
   return [
-    { url: `${base}/`, lastModified: new Date() },
-    { url: `${base}/login`, lastModified: new Date() },
-    { url: `${base}/signup`, lastModified: new Date() },
+    { url: `${siteUrl}/`, lastModified: now },
+    { url: `${siteUrl}/login`, lastModified: now },
+    { url: `${siteUrl}/signup`, lastModified: now },
   ];
 }
