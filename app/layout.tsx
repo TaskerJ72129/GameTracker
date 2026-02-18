@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
   title: {
-    default: "GameTracker",
+    default: "GameTracker — Track Games & Earn XP",
     template: "%s | GameTracker",
   },
 
