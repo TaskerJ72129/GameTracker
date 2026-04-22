@@ -14,7 +14,7 @@ export default function LandingPage() {
         </h1>
 
         <p className="text-zinc-400 text-lg max-w-2xl">
-          GameTracker is a real deployed web app that lets you search games via the RAWG API,
+          GameTracker is a web app that lets you search games via the RAWG API,
           mark them completed, and earn XP + genre XP through a gamified progression system.
         </p>
 
@@ -69,7 +69,7 @@ export default function LandingPage() {
       </section>
 
       <section className="text-xs text-zinc-500">
-        Built as a portfolio-quality, production-style web application with secure server/client separation.
+        Built as a production-style web application with secure server/client separation.
       </section>
     </main>
   );
