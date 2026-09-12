@@ -115,7 +115,7 @@ export default function LoginForm() {
                 disabled={loading}
                 className="w-full bg-emerald-600 text-black py-2 rounded disabled:opacity-60"
             >
-                Try Demo Account, explore instantly
+                Try Demo Account
             </button>
 
             <p className="text-sm text-zinc-400">

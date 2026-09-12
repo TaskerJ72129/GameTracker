@@ -5,12 +5,8 @@ export default function LandingPage() {
     <main className="min-h-[calc(100vh-80px)] max-w-5xl mx-auto px-6 py-16 space-y-14">
       {/* hero */}
       <section className="space-y-6">
-        <p className="inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900 px-3 py-1 text-sm text-zinc-300">
-          Deployed full-stack app
-        </p>
-
         <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight">
-          Track games. Earn XP. Level up your profile.
+          Game Tracker
         </h1>
 
         <p className="text-zinc-400 text-lg max-w-2xl">
@@ -53,7 +49,7 @@ export default function LandingPage() {
         />
         <Feature
           title="XP + genre progression"
-          body="Earn XP and genre XP, with level thresholds and a progression dashboard."
+          body="Earn XP and genre XP, with levels and a progression dashboard."
         />
         <Feature
           title="Auth + server-truth persistence"
